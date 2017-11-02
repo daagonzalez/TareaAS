@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f484fb8c-8854-4e25-8daa-03117d160c75" name="Default" comment="Sockets">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Tarea AS/com/redes/Main.class" afterPath="$PROJECT_DIR$/out/production/Tarea AS/com/redes/Main.class" />
+    <list default="true" id="f484fb8c-8854-4e25-8daa-03117d160c75" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tarea AS.iml" afterPath="$PROJECT_DIR$/Tarea AS.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/redes/Cliente.java" afterPath="$PROJECT_DIR$/src/com/redes/Cliente.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/redes/Main.java" afterPath="$PROJECT_DIR$/src/com/redes/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/redes/Servidor.java" afterPath="$PROJECT_DIR$/src/com/redes/Servidor.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -441,6 +436,14 @@
       <option name="presentableId" value="Default" />
       <updated>1509213996277</updated>
     </task>
+    <task id="LOCAL-00001" summary="Sockets">
+      <created>1509640726682</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1509640726682</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
