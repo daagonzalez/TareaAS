@@ -4,12 +4,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Main {
+public class Main extends Thread{
 
     public static void main(String[] args) {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String input = "";
-        boolean entradaInvalida;
+
+
+        Runnable nuevoSer = new Servidor();
+        Thread h = new Thread(nuevoSer);
+        h.start();
+
+        Runnable nuevoCliente = new Cliente();
+        Thread hilo = new Thread(nuevoCliente);
+        hilo.start();
+
+        /*boolean entradaInvalida;
         try {
             while (!input.equalsIgnoreCase("exit")) {
                 entradaInvalida = false;
@@ -64,6 +74,6 @@ public class Main {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
