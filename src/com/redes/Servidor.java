@@ -1,44 +1,106 @@
 package com.redes; /**
  * Created by B40798 on 02/11/2017.
  */
-import java.net.*;
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ *
+ * @author Gabriel
+ */
+public class Servidor {
 
-public class Servidor extends Thread{
-    final int PUERTO=5000;
-    ServerSocket sc;
-    Socket so;
-    DataOutputStream salida;
-    String mensajeRecibido;
-    //SERVIDOR
-    public void run()
-    {
-        BufferedReader entrada;
-        try
-        {
-            sc = new ServerSocket(PUERTO );/* crea socket servidor que escuchara en puerto 5000*/
-            so=new Socket();
-            System.out.println("Esperando una conexión:");
-            so = sc.accept();
+    private Socket miServicio;
+    private ServerSocket socketServicio;
 
-            //Inicia el socket, ahora esta esperando una conexión por parte del cliente
-            System.out.println("Un cliente se ha conectado.");
-            //Canales de entrada y salida de datos
-            entrada = new BufferedReader(new InputStreamReader(so.getInputStream()));
-            salida = new DataOutputStream(so.getOutputStream());
-            System.out.println("Confirmando conexion al cliente....");
-            salida.writeUTF("Conexión exitosa...n envia un mensaje :D");
-            //Recepcion de mensaje
-            mensajeRecibido = entrada.readLine();
-            System.out.println(mensajeRecibido);
-            salida.writeUTF("Se recibio tu mensaje.n Terminando conexion...");
-            salida.writeUTF("Gracias por conectarte, adios!");
-            System.out.println("Cerrando conexión...");
-            sc.close();//Aqui se cierra la conexión con el cliente
-        }catch(Exception e )
-        {
-            System.out.println("Error: "+e.getMessage());
+    private OutputStream outputStream;
+    private InputStream inputStream;
+
+    private DataOutputStream salidaDatos;
+    private DataInputStream entradaDatos;
+
+    private boolean opcion = true;
+    private Scanner scanner;
+    private String esctribir;
+
+    //APERTURA DE SOCKET
+    public void conexion(int numeroPuerto) {
+        try {
+            socketServicio = new ServerSocket(numeroPuerto);
+            System.out.println("El servidor se esta escuchando en el puerto: " + numeroPuerto);
+            miServicio = socketServicio.accept();
+            Thread hilo = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (opcion) {
+                        System.out.print("SERVIDOR: ");
+                        recibirDatos();
+
+                    }
+                }
+            });
+            hilo.start();
+            while (opcion) {
+                scanner = new Scanner(System.in);
+                esctribir = scanner.nextLine();
+                if (!esctribir.equals("CLIENTE: fin")) {
+                    enviarDatos("SERVIDOR: " + esctribir);
+                    //recibirDatos();
+                } else {
+                    opcion = false;
+                }
+            }
+            miServicio.close();
+        } catch (Exception ex) {
+            System.out.println("Error al abrir los sockets");
         }
     }
+
+    public void enviarDatos(String datos) {
+        try {
+            outputStream = miServicio.getOutputStream();
+            salidaDatos = new DataOutputStream(outputStream);
+            salidaDatos.writeUTF(datos);
+            salidaDatos.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void recibirDatos() {
+        try {
+            inputStream = miServicio.getInputStream();
+            entradaDatos = new DataInputStream(inputStream);
+            System.out.println(entradaDatos.readUTF());
+        } catch (IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void cerrarTodo() {
+        try {
+            salidaDatos.close();
+            entradaDatos.close();
+            socketServicio.close();
+            miServicio.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void main(String[] args) {
+        Servidor serv = new Servidor();
+        serv.conexion(5555);
+    }
+
 }

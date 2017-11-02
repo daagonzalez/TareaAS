@@ -10,15 +10,8 @@ public class Main extends Thread{
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String input = "";
 
-
-        Runnable nuevoSer = new Servidor();
-        Thread h = new Thread(nuevoSer);
-        h.start();
-
-        Runnable nuevoCliente = new Cliente();
-        Thread hilo = new Thread(nuevoCliente);
-        hilo.start();
-
+        new Servidor().main(null);
+        new Cliente().main(null);
         /*boolean entradaInvalida;
         try {
             while (!input.equalsIgnoreCase("exit")) {
