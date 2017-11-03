@@ -83,7 +83,7 @@ public class AS {
                 String parte1 = "";
                 String parte2 = "";
                 parte1 = rutas.get(i).substring(0,rutas.get(i).indexOf(':')+1);
-                parte2 = rutas.get(i).substring(rutas.get(i).indexOf(':'),2);//Falta calcular la segunda parte despues del punto
+                parte2 = rutas.get(i).substring(rutas.get(i).indexOf(':'),2);//NO SIRVE Falta calcular bien la segunda parte despues del punto
                 actualizacion = actualizacion + parte1 + id + "-" + parte2;
             }
         }
