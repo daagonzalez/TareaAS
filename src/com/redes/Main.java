@@ -10,7 +10,21 @@ public class Main extends Thread{
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String input = "";
 
-        AS as = new AS("C:\\Users\\B40798\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
+        Thread hilo = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AS as = new AS("C:\\Users\\B40798\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
+            }
+        });
+        hilo.start();
+
+        Thread hilo2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AS as = new AS("C:\\Users\\B40798\\IdeaProjects\\TareaAS\\src\\com\\redes\\as2.txt");
+            }
+        });
+        hilo2.start();
         //new Servidor().main(null);
         //new Cliente().main(null);
         /*boolean entradaInvalida;
