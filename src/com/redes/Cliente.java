@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class Cliente {
 
-    private Socket socketCliente;
+    public Socket socketCliente;
 
     private InputStream inputStream;
     private OutputStream outputStream;
@@ -28,7 +28,53 @@ public class Cliente {
 
     private Scanner scanner;
     private String esctribir;
-    public void conexion(int numeroPuerto, String ipMaquina) {
+
+    public Cliente(int numeroPuerto, String ipMaquina){
+        try {
+            socketCliente = new Socket(ipMaquina, numeroPuerto);
+            Thread hilo1 = new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });
+            hilo1.start();
+        } catch (Exception ex) {
+            System.out.println("ERROR AL ABRIR LOS SOCKETS CLIENTE " + ex.getMessage());
+        }
+    }
+
+    public void escucharDatos(Socket socket) {
+        try {
+            inputStream = socket.getInputStream();
+            entradaDatos = new DataInputStream(inputStream);
+            System.out.println(entradaDatos.readUTF());
+        } catch (IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void enviarDatos(String datos) {
+        try {
+            outputStream = socketCliente.getOutputStream();
+            SalidaDatos = new DataOutputStream(outputStream);
+            SalidaDatos.writeUTF(datos);
+            SalidaDatos.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    public void cerrarTodo() {
+        try {
+            SalidaDatos.close();
+            entradaDatos.close();
+            socketCliente.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /*public void conexion(int numeroPuerto, String ipMaquina) {
         try {
             socketCliente = new Socket(ipMaquina, numeroPuerto);
             Thread hilo1 = new Thread(new Runnable() {
@@ -89,5 +135,5 @@ public class Cliente {
     public static void main(String[] args) {
         Cliente cli = new Cliente();
         cli.conexion(5555, "localhost");
-    }
+    }*/
 }

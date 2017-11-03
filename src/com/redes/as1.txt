@@ -5,6 +5,6 @@ AS1
 2555
 256
 #Vecinos BGP
-N/A
+127.0.0.1:3333
 #Escuchar vecinos
 5555

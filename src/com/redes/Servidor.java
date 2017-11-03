@@ -32,7 +32,7 @@ public class Servidor {
     private String esctribir;
 
     //APERTURA DE SOCKET
-    public void conexion(int numeroPuerto) {
+    /*public void conexion(int numeroPuerto) {
         try {
             socketServicio = new ServerSocket(numeroPuerto);
             System.out.println("El servidor se esta escuchando en el puerto: " + numeroPuerto);
@@ -61,6 +61,34 @@ public class Servidor {
             miServicio.close();
         } catch (Exception ex) {
             System.out.println("Error al abrir los sockets");
+        }
+    }*/
+
+    public Servidor(int numeroPuerto){
+        try {
+            socketServicio = new ServerSocket(numeroPuerto);
+            System.out.println("El servidor se esta escuchando en el puerto: " + numeroPuerto);
+            Thread hilo = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        miServicio = socketServicio.accept();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            hilo.start();
+        } catch (Exception ex) {
+            System.out.println("Error al abrir los sockets");
+        }
+    }
+
+    public void aceptar(){
+        try {
+            socketServicio.accept();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -98,9 +126,9 @@ public class Servidor {
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Servidor serv = new Servidor();
         serv.conexion(5555);
-    }
+    }*/
 
 }

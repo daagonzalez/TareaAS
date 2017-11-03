@@ -9,6 +9,8 @@ public class AS {
 
     private String id;
     private ArrayList<String> rutas;
+    private  Cliente client1;
+    private  Servidor serv1;
 
     public AS(String nombreArchivo){
         this.id = "";
@@ -27,6 +29,8 @@ public class AS {
 
             // Lectura del fichero
             String linea;
+            String ip = "";
+            String puerto = "";
             linea = br.readLine();
             linea = br.readLine();
             this.id = linea;
@@ -41,7 +45,9 @@ public class AS {
             }
             linea = br.readLine();
             if(!linea.equals("N/A")){
-                //Se crea el cliente
+                ip = linea.substring(0,linea.indexOf(':'));
+                puerto = linea.substring(linea.indexOf(':')+1);
+                client1 = new Cliente(Integer.parseInt(puerto),ip);
             }
             while(!linea.equals("#Escuchar vecinos")){
                 //Se crea el cliente
@@ -49,7 +55,7 @@ public class AS {
             }
             linea = br.readLine();
             if(!linea.equals("N/A")){
-                //Se crea el servidor
+                serv1 = new Servidor(Integer.parseInt(linea));
             }
             while(!linea.equals(null)){
                 //Se crea el servidor
@@ -70,7 +76,13 @@ public class AS {
                 e2.printStackTrace();
             }
         }
-        calcularActualizacion();
+        actualizacion = calcularActualizacion();
+        client1.enviarDatos(actualizacion);
+        serv1.recibirDatos();
+        //Recibir datos
+        //Actualizar
+
+
     }
 
     public String calcularActualizacion(){
@@ -83,11 +95,15 @@ public class AS {
                 String parte1 = "";
                 String parte2 = "";
                 parte1 = rutas.get(i).substring(0,rutas.get(i).indexOf(':')+1);
-                parte2 = rutas.get(i).substring(rutas.get(i).indexOf(':'),2);//NO SIRVE Falta calcular bien la segunda parte despues del punto
-                actualizacion = actualizacion + parte1 + id + "-" + parte2;
+                parte2 = rutas.get(i).substring(rutas.get(i).indexOf(':')+1);//NO SIRVE Falta calcular bien la segunda parte despues del punto
+                actualizacion = actualizacion + parte1 + id + "-" + parte2 + ",";
             }
         }
         return actualizacion;
+    }
+
+    public void actualizarRutas(String mensaje){
+        
     }
 
 }

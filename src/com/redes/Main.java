@@ -10,7 +10,7 @@ public class Main extends Thread{
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String input = "";
 
-        AS as = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
+        AS as = new AS("C:\\Users\\B40798\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
         //new Servidor().main(null);
         //new Cliente().main(null);
         /*boolean entradaInvalida;
