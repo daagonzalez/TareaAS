@@ -10,8 +10,9 @@ public class Main extends Thread{
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String input = "";
 
-        new Servidor().main(null);
-        new Cliente().main(null);
+        AS as = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
+        //new Servidor().main(null);
+        //new Cliente().main(null);
         /*boolean entradaInvalida;
         try {
             while (!input.equalsIgnoreCase("exit")) {

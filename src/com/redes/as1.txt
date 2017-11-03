@@ -1,0 +1,10 @@
+#ID
+AS1
+#Redes conocidas
+128
+2555
+256
+#Vecinos BGP
+N/A
+#Escuchar vecinos
+5555
