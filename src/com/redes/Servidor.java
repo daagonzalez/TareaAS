@@ -104,14 +104,17 @@ public class Servidor {
 
     }
 
-    public void recibirDatos() {
+    public String recibirDatos() {
+        String mensaje = "";
         try {
             inputStream = miServicio.getInputStream();
             entradaDatos = new DataInputStream(inputStream);
-            System.out.println(entradaDatos.readUTF());
+            mensaje = entradaDatos.readUTF();
+            //System.out.println(entradaDatos.readUTF());
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return mensaje;
     }
 
     public void cerrarTodo() {

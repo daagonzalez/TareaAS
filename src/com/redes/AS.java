@@ -9,8 +9,8 @@ public class AS {
 
     private String id;
     private ArrayList<String> rutas;
-    private  Cliente client1;
-    private  Servidor serv1;
+    public Cliente client1;
+    public Servidor serv1;
 
     public AS(String nombreArchivo){
         this.id = "";
@@ -63,7 +63,7 @@ public class AS {
             }
         }
         catch(Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }finally{
             // En el finally cerramos el fichero, para asegurarnos
             // que se cierra tanto si todo va bien como si salta
@@ -77,11 +77,12 @@ public class AS {
             }
         }
         actualizacion = calcularActualizacion();
-        client1.enviarDatos(actualizacion);
-        serv1.recibirDatos();
+        /*if(client1 != null)
+            client1.enviarDatos(actualizacion);
+        if(serv1 != null)
+            serv1.recibirDatos();*/
         //Recibir datos
-        //Actualizar
-
+        //Actualiza
 
     }
 
@@ -103,7 +104,8 @@ public class AS {
     }
 
     public void actualizarRutas(String mensaje){
-
+        String ruta = "";
+        ruta = mensaje.substring(mensaje.indexOf('*')+1);
     }
 
 }

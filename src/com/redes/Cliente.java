@@ -32,6 +32,7 @@ public class Cliente {
     public Cliente(int numeroPuerto, String ipMaquina){
         try {
             socketCliente = new Socket(ipMaquina, numeroPuerto);
+            System.out.println("El cliente se conecto a puerto: " + numeroPuerto);
             Thread hilo1 = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -44,14 +45,17 @@ public class Cliente {
         }
     }
 
-    public void escucharDatos(Socket socket) {
+    public String escucharDatos(Socket socket) {
+        String mensaje = "";
         try {
             inputStream = socket.getInputStream();
             entradaDatos = new DataInputStream(inputStream);
-            System.out.println(entradaDatos.readUTF());
+            mensaje = entradaDatos.readUTF();
+            //System.out.println(entradaDatos.readUTF());
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return mensaje;
     }
     public void enviarDatos(String datos) {
         try {

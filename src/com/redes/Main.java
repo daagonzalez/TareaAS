@@ -3,6 +3,8 @@ package com.redes;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 public class Main extends Thread{
 
@@ -10,10 +12,35 @@ public class Main extends Thread{
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String input = "";
 
+        /*AS as = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
+        while(true){
+
+        }*/
+        CyclicBarrier barrera = new CyclicBarrier(3);
+
+
         Thread hilo = new Thread(new Runnable() {
             @Override
             public void run() {
-                AS as = new AS("C:\\Users\\B40798\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
+                AS as = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as2.txt");
+                String mensaje = "";
+                while(true){
+                    try {
+                        barrera.await();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (BrokenBarrierException e) {
+                        e.printStackTrace();
+                    }
+                    as.client1.enviarDatos(as.calcularActualizacion());
+                    mensaje = as.client1.escucharDatos(as.client1.socketCliente);
+                    as.actualizarRutas(mensaje);
+                    try {
+                        Thread.sleep(30000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         hilo.start();
@@ -21,10 +48,57 @@ public class Main extends Thread{
         Thread hilo2 = new Thread(new Runnable() {
             @Override
             public void run() {
-                AS as = new AS("C:\\Users\\B40798\\IdeaProjects\\TareaAS\\src\\com\\redes\\as2.txt");
+                AS as = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
+                String mensaje = "";
+                while(true){
+                    try {
+                        barrera.await();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (BrokenBarrierException e) {
+                        e.printStackTrace();
+                    }
+                    as.client1.enviarDatos(as.calcularActualizacion());
+                    mensaje = as.client1.escucharDatos(as.client1.socketCliente);
+                    as.actualizarRutas(mensaje);
+                    mensaje = as.serv1.recibirDatos();
+                    as.actualizarRutas(mensaje);
+                    as.serv1.enviarDatos(as.calcularActualizacion());
+                    try {
+                        Thread.sleep(30000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         hilo2.start();
+
+        Thread hilo3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AS as = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as3.txt");
+                String mensaje = "";
+                while(true){
+                    try {
+                        barrera.await();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (BrokenBarrierException e) {
+                        e.printStackTrace();
+                    }
+                    mensaje = as.serv1.recibirDatos();
+                    as.actualizarRutas(mensaje);
+                    as.serv1.enviarDatos(as.calcularActualizacion());
+                    try {
+                        Thread.sleep(30000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        hilo3.start();
         //new Servidor().main(null);
         //new Cliente().main(null);
         /*boolean entradaInvalida;
