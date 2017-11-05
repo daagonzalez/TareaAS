@@ -4,13 +4,19 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 public class AS {
 
-    private String id;
+    public String id;
     private ArrayList<String> rutas;
     public Cliente client1;
     public Servidor serv1;
+
+    public AS(){
+        this.id = "";
+    }
 
     public AS(String nombreArchivo){
         this.id = "";
@@ -105,7 +111,21 @@ public class AS {
 
     public void actualizarRutas(String mensaje){
         String ruta = "";
+        String enlace = "";
+        String idRed = "";
+        String rutaAS = "";
         ruta = mensaje.substring(mensaje.indexOf('*')+1);
+        while(ruta.length() > 0){
+            enlace = ruta.substring(0,ruta.indexOf(','));
+            if(!enlace.contains(id)){
+                idRed = enlace.substring(0,ruta.indexOf(':')+1);
+                if(ruta.indexOf(':') != ruta.length()-1){
+                    //if(!rutas.contains(idRed) && !rutas.contains(enlace) && !rutas.contains(id))
+                    if(!rutas.contains(idRed) && !rutas.contains(enlace))
+                        rutas.add(enlace);
+                }
+            }
+            ruta = ruta.substring(ruta.indexOf(',')+1);
+        }
     }
-
 }

@@ -22,25 +22,25 @@ public class Main extends Thread{
         Thread hilo = new Thread(new Runnable() {
             @Override
             public void run() {
-                AS as = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as2.txt");
+                AS as = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
                 String mensaje = "";
-                while(true){
                     try {
-                        barrera.await();
+                        barrera.await();//ESPERA A QUE LOS OTROS 2 HILOS TERMINEN DE CREAR LOS CLIENTES O SERVIDORES
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (BrokenBarrierException e) {
                         e.printStackTrace();
                     }
-                    as.client1.enviarDatos(as.calcularActualizacion());
-                    mensaje = as.client1.escucharDatos(as.client1.socketCliente);
-                    as.actualizarRutas(mensaje);
-                    try {
-                        Thread.sleep(30000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    while(true) {
+                        as.client1.enviarDatos(as.calcularActualizacion());
+                        mensaje = as.client1.escucharDatos(as.client1.socketCliente);
+                        as.actualizarRutas(mensaje);
+                        try {
+                            Thread.sleep(30000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
             }
         });
         hilo.start();
@@ -48,28 +48,32 @@ public class Main extends Thread{
         Thread hilo2 = new Thread(new Runnable() {
             @Override
             public void run() {
-                AS as = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
-                String mensaje = "";
-                while(true){
+                AS as = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as2.txt");
+                String mensajeC = "";
+                String mensajeS = "";
                     try {
-                        barrera.await();
+                        barrera.await();//ESPERA A QUE LOS OTROS 2 HILOS TERMINEN DE CREAR LOS CLIENTES O SERVIDORES
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (BrokenBarrierException e) {
                         e.printStackTrace();
                     }
-                    as.client1.enviarDatos(as.calcularActualizacion());
-                    mensaje = as.client1.escucharDatos(as.client1.socketCliente);
-                    as.actualizarRutas(mensaje);
-                    mensaje = as.serv1.recibirDatos();
-                    as.actualizarRutas(mensaje);
-                    as.serv1.enviarDatos(as.calcularActualizacion());
-                    try {
-                        Thread.sleep(30000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    while(true) {
+                        as.client1.enviarDatos(as.calcularActualizacion());
+                        mensajeC = as.client1.escucharDatos(as.client1.socketCliente);
+
+                        as.serv1.enviarDatos(as.calcularActualizacion());
+                        mensajeS = as.serv1.recibirDatos();
+
+                        as.actualizarRutas(mensajeC);
+                        as.actualizarRutas(mensajeS);
+
+                        try {
+                            Thread.sleep(30000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
             }
         });
         hilo2.start();
@@ -79,28 +83,28 @@ public class Main extends Thread{
             public void run() {
                 AS as = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as3.txt");
                 String mensaje = "";
-                while(true){
                     try {
-                        barrera.await();
+                        barrera.await();//ESPERA A QUE LOS OTROS 2 HILOS TERMINEN DE CREAR LOS CLIENTES O SERVIDORES
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (BrokenBarrierException e) {
                         e.printStackTrace();
                     }
-                    mensaje = as.serv1.recibirDatos();
-                    as.actualizarRutas(mensaje);
-                    as.serv1.enviarDatos(as.calcularActualizacion());
-                    try {
-                        Thread.sleep(30000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    while(true) {
+                        as.serv1.enviarDatos(as.calcularActualizacion());
+                        mensaje = as.serv1.recibirDatos();
+
+                        as.actualizarRutas(mensaje);
+                        try {
+                            Thread.sleep(30000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
             }
         });
         hilo3.start();
-        //new Servidor().main(null);
-        //new Cliente().main(null);
+
         /*boolean entradaInvalida;
         try {
             while (!input.equalsIgnoreCase("exit")) {

@@ -110,7 +110,7 @@ public class Servidor {
             inputStream = miServicio.getInputStream();
             entradaDatos = new DataInputStream(inputStream);
             mensaje = entradaDatos.readUTF();
-            //System.out.println(entradaDatos.readUTF());
+            System.out.println(mensaje);
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }

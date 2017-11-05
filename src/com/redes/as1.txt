@@ -2,9 +2,7 @@
 AS1
 #Redes conocidas
 128
-2555
-2648
 #Vecinos BGP
-127.0.0.3:3333
+127.0.0.2:5555
 #Escuchar vecinos
-5555
+N/A

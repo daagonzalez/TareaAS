@@ -1,7 +1,6 @@
 #ID
-AS2
+AS3
 #Redes conocidas
-589
 1253
 #Vecinos BGP
 N/A
