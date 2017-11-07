@@ -14,7 +14,7 @@ public class AS {
     public Cliente client1;
     public Servidor serv1;
 
-    public AS(){
+    public AS() {
         this.id = "";
     }
 
@@ -53,6 +53,7 @@ public class AS {
             if(!linea.equals("N/A")){
                 ip = linea.substring(0,linea.indexOf(':'));
                 puerto = linea.substring(linea.indexOf(':')+1);
+               //serv1 = new Servidor(Integer.parseInt(puerto));
                 client1 = new Cliente(Integer.parseInt(puerto),ip);
             }
             while(!linea.equals("#Escuchar vecinos")){
@@ -128,4 +129,24 @@ public class AS {
             ruta = ruta.substring(ruta.indexOf(',')+1);
         }
     }
+
+    public void detenerAS(){
+        rutas.clear();
+        id = "";
+        if(client1 != null)
+            client1.cerrarTodo();
+        if(serv1 != null)
+            serv1.cerrarTodo();
+    }
+
+    public void mostrarRutas(){
+        System.out.println("RUTAS CONOCIDAS \n");
+        for(int i = 0; i < rutas.size(); i++){
+            if(rutas.get(i).indexOf(':') ==  rutas.get(i).length()-1)
+                System.out.println(rutas.get(i) + " Propia \n");
+            else
+                System.out.println(rutas.get(i) + "\n");
+        }
+    }
+
 }

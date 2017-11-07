@@ -1,11 +1,9 @@
 package com.redes;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +20,7 @@ public class Cliente {
     private OutputStream outputStream;
 
     private DataInputStream entradaDatos;
-    private DataOutputStream SalidaDatos;
+    private DataOutputStream salidaDatos;
 
     private boolean opcion = true;
 
@@ -30,19 +28,26 @@ public class Cliente {
     private String esctribir;
 
     public Cliente(int numeroPuerto, String ipMaquina){
-        try {
-            socketCliente = new Socket(ipMaquina, numeroPuerto);
-            System.out.println("El cliente se conecto a puerto: " + numeroPuerto);
-            Thread hilo1 = new Thread(new Runnable() {
-                @Override
-                public void run() {
+        boolean continuar = false;
+        while(!continuar){
+            try {
+                socketCliente = new Socket(ipMaquina, numeroPuerto);
+                socketCliente.setSoTimeout(30000);
+                //System.out.println("El cliente se conecto a puerto: " + numeroPuerto);
+                Thread hilo1 = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
 
-                }
-            });
-            hilo1.start();
-        } catch (Exception ex) {
-            System.out.println("ERROR AL ABRIR LOS SOCKETS CLIENTE " + ex.getMessage());
+                    }
+                });
+                hilo1.start();
+                continuar = true;
+            } catch (Exception ex) {
+                //System.out.println("ESPERANDO QUE SE CREE SERVIDOR" + ex.getMessage());
+                //System.out.println("ESPERANDO QUE SE CREE SERVIDOR");
+            }
         }
+
     }
 
     public String escucharDatos(Socket socket) {
@@ -51,8 +56,15 @@ public class Cliente {
             inputStream = socket.getInputStream();
             entradaDatos = new DataInputStream(inputStream);
             mensaje = entradaDatos.readUTF();
-            System.out.println(mensaje);
+            //System.out.println(mensaje);
+        } catch (SocketTimeoutException ex){
+            //System.out.println(ex);
+            mensaje = null;
+        } catch (EOFException ex){
+            //System.out.println(ex);
+            mensaje = null;
         } catch (IOException ex) {
+            //System.out.println(ex);
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mensaje;
@@ -60,9 +72,9 @@ public class Cliente {
     public void enviarDatos(String datos) {
         try {
             outputStream = socketCliente.getOutputStream();
-            SalidaDatos = new DataOutputStream(outputStream);
-            SalidaDatos.writeUTF(datos);
-            SalidaDatos.flush();
+            salidaDatos = new DataOutputStream(outputStream);
+            salidaDatos.writeUTF(datos);
+            salidaDatos.flush();
         } catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,9 +82,12 @@ public class Cliente {
     }
     public void cerrarTodo() {
         try {
-            SalidaDatos.close();
-            entradaDatos.close();
-            socketCliente.close();
+            if(salidaDatos != null)
+                salidaDatos.close();
+            if(entradaDatos != null)
+                entradaDatos.close();
+            if(socketCliente != null)
+                socketCliente.close();
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
