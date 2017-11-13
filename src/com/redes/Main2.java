@@ -12,6 +12,9 @@ public class Main2 extends Thread{
     public static boolean terminar1;
     public static boolean terminar2;
     public static boolean terminar3;
+    static Thread hiloInterno;
+    public static String vecino1;
+    public static String vecino2;
 
     public static void main(String[] args) {
         /*BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -22,6 +25,8 @@ public class Main2 extends Thread{
         terminar1 = false;
         terminar2 = false;
         terminar3 = false;
+        vecino1 = "";
+        vecino2 = "";
 
         Thread hilo2 = new Thread(new Runnable() {
             @Override
@@ -36,12 +41,14 @@ public class Main2 extends Thread{
                         input = in.readLine();
                         switch (input.split(" ")[0]) {
                             case "start":
-                                Thread hiloInterno = new Thread(new Runnable() {
+                                //Thread hiloInterno = new Thread(new Runnable() {
+                                hiloInterno = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
                                         as2 = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as2.txt");
                                         String mensajeC = "";
                                         String mensajeS = "";
+                                        int primer = 0;
                                         while(!terminar2){
                                             as2.client1.enviarDatos(as2.calcularActualizacion());
                                             mensajeC = as2.client1.escucharDatos(as2.client1.socketCliente);
@@ -49,21 +56,38 @@ public class Main2 extends Thread{
                                             as2.serv1.enviarDatos(as2.calcularActualizacion());
                                             mensajeS = as2.serv1.recibirDatos();
 
-                                            if(mensajeC != null)
-                                                as2.actualizarRutas(mensajeC);
-                                            else{
-
+                                            if(primer == 0 && mensajeC != null){
+                                                vecino1 = mensajeC.substring(0,mensajeC.indexOf('*'));
+                                                primer++;
+                                                if(vecino1 == "")
+                                                    primer = 0;
                                             }
 
-                                            if(mensajeS != null)
-                                            as2.actualizarRutas(mensajeS);
+                                            if(mensajeC != null){
+                                                //vecino1 = mensajeC.substring(0,mensajeC.indexOf('*'));
+                                                as2.actualizarRutas(mensajeC);
+                                            }
                                             else{
-                                                //Borrar ruta
+                                                as2.borrarRuta(vecino1);
+                                            }
+
+                                            if(primer == 0 && mensajeS != null){
+                                                vecino2 = mensajeS.substring(0,mensajeS.indexOf('*'));
+                                                primer++;
+                                                if(vecino2 == "")
+                                                    primer = 0;
+                                            }
+
+                                            if(mensajeS != null){
+                                                as2.actualizarRutas(mensajeS);
+                                            }
+                                            else{
+                                                as2.borrarRuta(vecino2);
                                             }
                                             try {
                                                 Thread.sleep(30000);
                                             } catch (InterruptedException e) {
-                                                e.printStackTrace();
+                                               // e.printStackTrace();
                                             }
                                         }
                                     }
@@ -77,14 +101,19 @@ public class Main2 extends Thread{
                                 else{
                                     terminar2 = true;
                                     as2.detenerAS();
+                                    hiloInterno.interrupt();
+                                    terminar2 = false;
+
                                 }
                                 break;
                             case "add":
                                 if(as2.id.equals(""))
                                     System.out.println("Debe de iniciar primero el AS \n");
                                 else{
-                                    //Revisar que después de add venga una red válida
-                                    System.out.println("Agregar una red (No soportado).");
+                                    if (input.split(" ").length > 1) {
+                                        String idRed = input.substring(input.indexOf(" ")+1);
+                                        as2.agregarRed(idRed);
+                                    }
                                 }
                                 break;
                             case "show":

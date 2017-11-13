@@ -12,6 +12,9 @@ public class Main3 extends Thread{
     public static boolean terminar1;
     public static boolean terminar2;
     public static boolean terminar3;
+    static Thread hiloInterno;
+    public static String vecino1;
+    public static String vecino2;
 
     public static void main(String[] args) {
         /*BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -22,6 +25,8 @@ public class Main3 extends Thread{
         terminar1 = false;
         terminar2 = false;
         terminar3 = false;
+        vecino1 = "";
+        vecino2 = "";
 
         Thread hilo3 = new Thread(new Runnable() {
             @Override
@@ -36,24 +41,36 @@ public class Main3 extends Thread{
                         input = in.readLine();
                         switch (input.split(" ")[0]) {
                             case "start":
-                                Thread hiloInterno = new Thread(new Runnable() {
+                                //Thread hiloInterno = new Thread(new Runnable() {
+                                hiloInterno = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
                                         as3 = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as3.txt");
                                         String mensaje = "";
+                                        int primer = 0;
                                         while(!terminar3){
                                             as3.serv1.enviarDatos(as3.calcularActualizacion());
                                             mensaje = as3.serv1.recibirDatos();
 
-                                            if(mensaje != null)
+                                            if(primer == 0 && mensaje != null){
+                                                vecino1 = mensaje.substring(0,mensaje.indexOf('*'));
+                                                primer++;
+                                                if(vecino1 == "")
+                                                    primer = 0;
+                                            }
+
+                                            if(mensaje != null){
+                                                //vecino1 = mensaje.substring(0,mensaje.indexOf('*'));
                                                 as3.actualizarRutas(mensaje);
+                                            }
                                             else{
-                                                //Borrar ruta
+                                                as3.borrarRuta(vecino1);
                                             }
                                             try {
                                                 Thread.sleep(30000);
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
+                                            }
+                                            catch (InterruptedException e) {
+                                                //e.printStackTrace();
                                             }
                                         }
                                     }
@@ -67,15 +84,21 @@ public class Main3 extends Thread{
                                 else{
                                     terminar3 = true;
                                     as3.detenerAS();
+                                    hiloInterno.interrupt();
+                                    terminar3 = false;
+
                                 }
                                 break;
                             case "add":
                                 if(as3.id.equals(""))
                                     System.out.println("Debe de iniciar primero el AS \n");
                                 else{
-                                    //Revisar que después de add venga una red válida
-                                    System.out.println("Agregar una red (No soportado).");
+                                    if (input.split(" ").length > 1) {
+                                        String idRed = input.substring(input.indexOf(" ")+1);
+                                        as3.agregarRed(idRed);
+                                    }
                                 }
+                                break;
                             case "show":
                                 if (input.split(" ").length > 1) {
                                     if (input.split(" ")[1].equals("routes")) {

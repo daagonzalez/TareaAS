@@ -4,6 +4,7 @@ package com.redes; /**
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -40,10 +41,17 @@ public class Servidor {
                 Thread hilo = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            miServicio = socketServicio.accept();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        boolean acepto = false;
+                        while(!acepto){
+                            try {
+                                miServicio = socketServicio.accept();
+                                acepto = true;
+                            }catch (SocketTimeoutException ex){
+                                acepto = false;
+                            }
+                            catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -72,7 +80,10 @@ public class Servidor {
             salidaDatos.flush();
         }catch (NullPointerException ex){
             //ex.printStackTrace();
-        } catch (IOException ex) {
+        }catch (SocketException c){
+
+        }
+        catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -94,7 +105,10 @@ public class Servidor {
         } catch (EOFException ex){
             //System.out.println(ex);
             mensaje = null;
-        } catch (IOException ex) {
+        }catch (SocketException c){
+
+        }
+        catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mensaje;

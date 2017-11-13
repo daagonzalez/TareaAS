@@ -14,6 +14,9 @@ public class Main extends Thread{
     public static boolean terminar1;
     public static boolean terminar2;
     public static boolean terminar3;
+    public static Thread hiloInterno;
+    public static String vecino1;
+    public static String vecino2;
 
     public static void main(String[] args) {
         /*BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -24,6 +27,8 @@ public class Main extends Thread{
         terminar1 = false;
         terminar2 = false;
         terminar3 = false;
+        vecino1 = "";
+        vecino2 = "";
 
         Thread hilo = new Thread(new Runnable() {
             @Override
@@ -38,23 +43,32 @@ public class Main extends Thread{
                         input = in.readLine();
                         switch (input.split(" ")[0]) {
                             case "start":
-                                Thread hiloInterno = new Thread(new Runnable() {
+                                //Thread hiloInterno = new Thread(new Runnable() {
+                                hiloInterno = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
                                         as1 = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
                                         String mensaje = "";
+                                        int primer = 0;
                                         while(!terminar1){
                                             as1.client1.enviarDatos(as1.calcularActualizacion());
                                             mensaje = as1.client1.escucharDatos(as1.client1.socketCliente);
-                                            if(mensaje != null)
+                                            if(primer == 0 && mensaje != null){
+                                                vecino1 = mensaje.substring(0,mensaje.indexOf('*'));
+                                                primer++;
+                                                if(vecino1 == "")
+                                                    primer = 0;
+                                            }
+                                            if(mensaje != null){
                                                 as1.actualizarRutas(mensaje);
+                                            }
                                             else{
-                                                //Borrar ruta
+                                                as1.borrarRuta(vecino1);
                                             }
                                             try {
                                                 Thread.sleep(30000);
                                             } catch (InterruptedException e) {
-                                                e.printStackTrace();
+                                               // e.printStackTrace();
                                             }
                                         }
                                     }
@@ -68,14 +82,19 @@ public class Main extends Thread{
                                 else{
                                     terminar1 = true;
                                     as1.detenerAS();
+                                    hiloInterno.interrupt();
+                                    terminar1 = false;
                                 }
                                 break;
                             case "add":
                                 if(as1.id.equals(""))
                                     System.out.println("Debe de iniciar primero el AS \n");
                                 else{
+                                    if (input.split(" ").length > 1) {
+                                        String idRed = input.substring(input.indexOf(" ")+1);
+                                        as1.agregarRed(idRed);
+                                    }
                                     //Revisar que después de add venga una red válida
-                                    System.out.println("Agregar una red (No soportado).");
                                 }
                                 break;
                             case "show":

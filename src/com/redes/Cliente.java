@@ -63,6 +63,8 @@ public class Cliente {
         } catch (EOFException ex){
             //System.out.println(ex);
             mensaje = null;
+        } catch (SocketException c){
+
         } catch (IOException ex) {
             //System.out.println(ex);
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,6 +77,8 @@ public class Cliente {
             salidaDatos = new DataOutputStream(outputStream);
             salidaDatos.writeUTF(datos);
             salidaDatos.flush();
+        } catch (SocketException c){
+
         } catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }

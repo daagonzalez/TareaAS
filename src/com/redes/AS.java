@@ -130,6 +130,20 @@ public class AS {
         }
     }
 
+    public void borrarRuta(String idVecino){
+        for(int i = 0; i < rutas.size(); i++){
+            if(rutas.get(i).contains(idVecino) && idVecino != ""){
+                rutas.remove(i);
+                i--;
+            }
+
+        }
+    }
+
+    public void agregarRed(String idRed){
+        rutas.add(idRed + ":");
+    }
+
     public void detenerAS(){
         rutas.clear();
         id = "";
