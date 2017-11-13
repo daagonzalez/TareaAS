@@ -3,6 +3,6 @@ AS2
 #Redes conocidas
 589
 #Vecinos BGP
-127.0.0.3:3333
+127.0.0.15:3333
 #Escuchar vecinos
 5555

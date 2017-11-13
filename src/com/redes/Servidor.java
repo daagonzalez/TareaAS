@@ -66,7 +66,7 @@ public class Servidor {
 
     public void aceptar(){
         try {
-            socketServicio.accept();
+            miServicio = socketServicio.accept();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,7 +81,7 @@ public class Servidor {
         }catch (NullPointerException ex){
             //ex.printStackTrace();
         }catch (SocketException c){
-
+            aceptar();
         }
         catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);

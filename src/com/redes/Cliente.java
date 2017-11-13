@@ -27,11 +27,16 @@ public class Cliente {
     private Scanner scanner;
     private String esctribir;
 
+    private String nIp;
+    private int nPuerto;
+
     public Cliente(int numeroPuerto, String ipMaquina){
+        nPuerto = numeroPuerto;
+        nIp = ipMaquina;
         boolean continuar = false;
         while(!continuar){
             try {
-                socketCliente = new Socket(ipMaquina, numeroPuerto);
+                socketCliente = new Socket(nIp,nPuerto);
                 socketCliente.setSoTimeout(30000);
                 //System.out.println("El cliente se conecto a puerto: " + numeroPuerto);
                 Thread hilo1 = new Thread(new Runnable() {
@@ -78,7 +83,11 @@ public class Cliente {
             salidaDatos.writeUTF(datos);
             salidaDatos.flush();
         } catch (SocketException c){
-
+            try {
+                socketCliente = new Socket(nIp, nPuerto);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }

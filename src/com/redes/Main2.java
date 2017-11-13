@@ -53,6 +53,7 @@ public class Main2 extends Thread{
                                         String mensajeC = "";
                                         String mensajeS = "";
                                         int primer = 0;
+                                        int primer2 = 0;
                                         while(!terminar2){
                                             as2.client1.enviarDatos(as2.calcularActualizacion());
                                             mensajeC = as2.client1.escucharDatos(as2.client1.socketCliente);
@@ -61,6 +62,7 @@ public class Main2 extends Thread{
                                             mensajeS = as2.serv1.recibirDatos();
 
                                             if(primer == 0 && mensajeC != null){
+
                                                 vecino1 = mensajeC.substring(0,mensajeC.indexOf('*'));
                                                 primer++;
                                                 if(vecino1 == "")
@@ -75,11 +77,11 @@ public class Main2 extends Thread{
                                                 as2.borrarRuta(vecino1);
                                             }
 
-                                            if(primer == 0 && mensajeS != null){
+                                            if(primer2 == 0 && mensajeS != null){
                                                 vecino2 = mensajeS.substring(0,mensajeS.indexOf('*'));
-                                                primer++;
+                                                primer2++;
                                                 if(vecino2 == "")
-                                                    primer = 0;
+                                                    primer2 = 0;
                                             }
 
                                             if(mensajeS != null){
@@ -103,10 +105,11 @@ public class Main2 extends Thread{
                                 if(as2.id.equals(""))
                                     System.out.println("Debe de iniciar primero el AS \n");
                                 else{
-                                    terminar2 = true;
+                                    /*terminar2 = true;
                                     as2.detenerAS();
                                     hiloInterno.interrupt();
-                                    terminar2 = false;
+                                    terminar2 = false;*/
+                                    System.exit(0);
 
                                 }
                                 break;
