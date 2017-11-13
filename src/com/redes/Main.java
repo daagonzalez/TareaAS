@@ -30,17 +30,21 @@ public class Main extends Thread{
         vecino1 = "";
         vecino2 = "";
 
-        Thread hilo = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        //Thread hilo = new Thread(new Runnable() {
+            //@Override
+           /// public void run() {
                 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
                 String input = "";
                 boolean entradaInvalida;
-                try {
+                //try {
                     while (!input.equalsIgnoreCase("exit")) {
                         entradaInvalida = false;
                         System.out.print("Ingrese un comando> ");
-                        input = in.readLine();
+                        try {
+                            input = in.readLine();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         switch (input.split(" ")[0]) {
                             case "start":
                                 //Thread hiloInterno = new Thread(new Runnable() {
@@ -137,12 +141,12 @@ public class Main extends Thread{
                             System.out.println("Comando inválido. Escriba 'help' para ver una lista de los comandos aceptados.\n");
                         }
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        hilo.start();
+                //} catch (IOException e) {
+                  //  e.printStackTrace();
+                //}
+            //}
+        //});
+        //hilo.start();
 
         /*Thread hilo2 = new Thread(new Runnable() {
             @Override

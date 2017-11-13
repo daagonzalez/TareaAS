@@ -28,17 +28,21 @@ public class Main3 extends Thread{
         vecino1 = "";
         vecino2 = "";
 
-        Thread hilo3 = new Thread(new Runnable() {
+        /*Thread hilo3 = new Thread(new Runnable() {
             @Override
-            public void run() {
+            public void run() {*/
                 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
                 String input = "";
                 boolean entradaInvalida;
-                try {
+                //try {
                     while (!input.equalsIgnoreCase("exit")) {
                         entradaInvalida = false;
                         System.out.print("Ingrese un comando> ");
-                        input = in.readLine();
+                        try {
+                            input = in.readLine();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         switch (input.split(" ")[0]) {
                             case "start":
                                 //Thread hiloInterno = new Thread(new Runnable() {
@@ -139,12 +143,12 @@ public class Main3 extends Thread{
                             System.out.println("Comando inválido. Escriba 'help' para ver una lista de los comandos aceptados.\n");
                         }
                     }
-                } catch (IOException e) {
+        /*        } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
-        hilo3.start();
+        hilo3.start();*/
 
 
         /*CyclicBarrier barrera = new CyclicBarrier(3);
