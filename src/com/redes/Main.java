@@ -57,23 +57,25 @@ public class Main extends Thread{
                                         while(!terminar1){
                                             as1.client1.enviarDatos(as1.calcularActualizacion());
                                             mensaje = as1.client1.escucharDatos(as1.client1.socketCliente);
-                                            if(primer == 0 && mensaje != null){
+                                            if(primer == 0 && mensaje != null && mensaje != ""){
                                                 vecino1 = mensaje.substring(0,mensaje.indexOf('*'));
                                                 primer++;
                                                 if(vecino1 == "")
                                                     primer = 0;
                                             }
-                                            if(mensaje != null){
+                                            if(mensaje != null && mensaje != ""){
                                                 as1.actualizarRutas(mensaje);
                                             }
                                             else{
                                                 as1.borrarRuta(vecino1);
+                                                vecino1 = "";
+                                                primer = 0;
                                             }
-                                            try {
+                                            /*try {
                                                 Thread.sleep(30000);
                                             } catch (InterruptedException e) {
                                                // e.printStackTrace();
-                                            }
+                                            }*/
                                         }
                                     }
                                 });
@@ -84,10 +86,11 @@ public class Main extends Thread{
                                 if(as1.id.equals(""))
                                     System.out.println("Debe de iniciar primero el AS \n");
                                 else{
-                                    terminar1 = true;
+                                    /*terminar1 = true;
                                     as1.detenerAS();
                                     hiloInterno.interrupt();
-                                    terminar1 = false;
+                                    terminar1 = false;*/
+                                    System.exit(0);
                                 }
                                 break;
                             case "add":

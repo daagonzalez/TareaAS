@@ -36,7 +36,7 @@ public class Servidor {
         while(!continuar){
             try {
                 socketServicio = new ServerSocket(numeroPuerto);
-                socketServicio.setSoTimeout(30000);
+                socketServicio.setSoTimeout(1000);
                 //System.out.println("El servidor se esta escuchando en el puerto: " + numeroPuerto);
                 Thread hilo = new Thread(new Runnable() {
                     @Override
@@ -67,6 +67,8 @@ public class Servidor {
     public void aceptar(){
         try {
             miServicio = socketServicio.accept();
+        } catch (SocketTimeoutException ex){
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -109,6 +111,7 @@ public class Servidor {
 
         }
         catch (IOException ex) {
+            System.out.println(ex);
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mensaje;

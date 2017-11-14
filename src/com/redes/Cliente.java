@@ -37,7 +37,7 @@ public class Cliente {
         while(!continuar){
             try {
                 socketCliente = new Socket(nIp,nPuerto);
-                socketCliente.setSoTimeout(30000);
+                socketCliente.setSoTimeout(1000);
                 //System.out.println("El cliente se conecto a puerto: " + numeroPuerto);
                 Thread hilo1 = new Thread(new Runnable() {
                     @Override
@@ -85,6 +85,8 @@ public class Cliente {
         } catch (SocketException c){
             try {
                 socketCliente = new Socket(nIp, nPuerto);
+            } catch (SocketException ex) {
+                //e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

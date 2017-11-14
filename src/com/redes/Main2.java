@@ -61,40 +61,43 @@ public class Main2 extends Thread{
                                             as2.serv1.enviarDatos(as2.calcularActualizacion());
                                             mensajeS = as2.serv1.recibirDatos();
 
-                                            if(primer == 0 && mensajeC != null){
-
+                                            if(primer == 0 && mensajeC != null  && mensajeC != ""){
                                                 vecino1 = mensajeC.substring(0,mensajeC.indexOf('*'));
                                                 primer++;
                                                 if(vecino1 == "")
                                                     primer = 0;
                                             }
 
-                                            if(mensajeC != null){
+                                            if(mensajeC != null && mensajeC != ""){
                                                 //vecino1 = mensajeC.substring(0,mensajeC.indexOf('*'));
                                                 as2.actualizarRutas(mensajeC);
                                             }
                                             else{
                                                 as2.borrarRuta(vecino1);
+                                                vecino1 = "";
+                                                primer = 0;
                                             }
 
-                                            if(primer2 == 0 && mensajeS != null){
+                                            if(primer2 == 0 && mensajeS != null && mensajeS != ""){
                                                 vecino2 = mensajeS.substring(0,mensajeS.indexOf('*'));
                                                 primer2++;
                                                 if(vecino2 == "")
                                                     primer2 = 0;
                                             }
 
-                                            if(mensajeS != null){
+                                            if(mensajeS != null && mensajeS != ""){
                                                 as2.actualizarRutas(mensajeS);
                                             }
                                             else{
                                                 as2.borrarRuta(vecino2);
+                                                vecino2 = "";
+                                                primer2 = 0;
                                             }
-                                            try {
+                                            /*try {
                                                 Thread.sleep(30000);
                                             } catch (InterruptedException e) {
                                                // e.printStackTrace();
-                                            }
+                                            }*/
                                         }
                                     }
                                 });

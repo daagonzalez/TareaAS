@@ -56,26 +56,28 @@ public class Main3 extends Thread{
                                             as3.serv1.enviarDatos(as3.calcularActualizacion());
                                             mensaje = as3.serv1.recibirDatos();
 
-                                            if(primer == 0 && mensaje != null){
+                                            if(primer == 0 && mensaje != null && mensaje != ""){
                                                 vecino1 = mensaje.substring(0,mensaje.indexOf('*'));
                                                 primer++;
                                                 if(vecino1 == "")
                                                     primer = 0;
                                             }
 
-                                            if(mensaje != null){
+                                            if(mensaje != null && mensaje != ""){
                                                 //vecino1 = mensaje.substring(0,mensaje.indexOf('*'));
                                                 as3.actualizarRutas(mensaje);
                                             }
                                             else{
                                                 as3.borrarRuta(vecino1);
+                                                vecino1 = "";
+                                                primer = 0;
                                             }
-                                            try {
+                                            /*try {
                                                 Thread.sleep(30000);
                                             }
                                             catch (InterruptedException e) {
                                                 //e.printStackTrace();
-                                            }
+                                            }*/
                                         }
                                     }
                                 });
@@ -86,11 +88,11 @@ public class Main3 extends Thread{
                                 if(as3.id.equals(""))
                                     System.out.println("Debe de iniciar primero el AS \n");
                                 else{
-                                    terminar3 = true;
+                                    /*terminar3 = true;
                                     as3.detenerAS();
                                     hiloInterno.interrupt();
-                                    terminar3 = false;
-
+                                    terminar3 = false;*/
+                                    System.exit(0);
                                 }
                                 break;
                             case "add":

@@ -121,7 +121,6 @@ public class AS {
             if(!enlace.contains(id)){
                 idRed = enlace.substring(0,ruta.indexOf(':')+1);
                 if(ruta.indexOf(':') != ruta.length()-1){
-                    //if(!rutas.contains(idRed) && !rutas.contains(enlace) && !rutas.contains(id))
                     if(!rutas.contains(idRed) && !rutas.contains(enlace))
                         rutas.add(enlace);
                 }
@@ -136,7 +135,6 @@ public class AS {
                 rutas.remove(i);
                 i--;
             }
-
         }
     }
 
