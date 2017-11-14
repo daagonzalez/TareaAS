@@ -4,13 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ListIterator;
 
 public class AS {
 
     public String id;
-    private ArrayList<String> rutas;
+    public ArrayList<String> rutas;
     public Cliente client1;
     public Servidor serv1;
 
@@ -21,7 +19,6 @@ public class AS {
     public AS(String nombreArchivo){
         this.id = "";
         this.rutas = new ArrayList<String>();
-        String actualizacion;
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
@@ -53,7 +50,6 @@ public class AS {
             if(!linea.equals("N/A")){
                 ip = linea.substring(0,linea.indexOf(':'));
                 puerto = linea.substring(linea.indexOf(':')+1);
-               //serv1 = new Servidor(Integer.parseInt(puerto));
                 client1 = new Cliente(Integer.parseInt(puerto),ip);
             }
             while(!linea.equals("#Escuchar vecinos")){
@@ -83,14 +79,6 @@ public class AS {
                 e2.printStackTrace();
             }
         }
-        actualizacion = calcularActualizacion();
-        /*if(client1 != null)
-            client1.enviarDatos(actualizacion);
-        if(serv1 != null)
-            serv1.recibirDatos();*/
-        //Recibir datos
-        //Actualiza
-
     }
 
     public String calcularActualizacion(){
@@ -139,6 +127,7 @@ public class AS {
     }
 
     public void agregarRed(String idRed){
+
         rutas.add(idRed + ":");
     }
 

@@ -6,14 +6,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Gabriel
- */
 public class Servidor {
 
     private Socket miServicio;
@@ -24,12 +19,6 @@ public class Servidor {
 
     private DataOutputStream salidaDatos;
     private DataInputStream entradaDatos;
-
-    private boolean opcion = true;
-    private Scanner scanner;
-    private String esctribir;
-
-    //APERTURA DE SOCKET
 
     public Servidor(int numeroPuerto){
         boolean continuar = false;
@@ -50,7 +39,7 @@ public class Servidor {
                                 acepto = false;
                             }
                             catch (IOException e) {
-                                e.printStackTrace();
+                                //e.printStackTrace();
                             }
                         }
                     }
@@ -111,7 +100,6 @@ public class Servidor {
 
         }
         catch (IOException ex) {
-            System.out.println(ex);
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mensaje;
