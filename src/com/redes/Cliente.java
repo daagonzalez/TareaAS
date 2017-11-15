@@ -14,8 +14,8 @@ public class Cliente {
     private InputStream inputStream;
     private OutputStream outputStream;
 
-    private DataInputStream entradaDatos;
-    private DataOutputStream salidaDatos;
+    private BufferedReader entradaDatos;
+    private PrintWriter salidaDatos;
 
     private String nIp;
     private int nPuerto;
@@ -49,8 +49,8 @@ public class Cliente {
         String mensaje = "";
         try {
             inputStream = socket.getInputStream();
-            entradaDatos = new DataInputStream(inputStream);
-            mensaje = entradaDatos.readUTF();
+            entradaDatos = new BufferedReader(new InputStreamReader(inputStream));
+            mensaje = entradaDatos.readLine();
             //System.out.println(mensaje);
         } catch (SocketTimeoutException ex){
             //System.out.println(ex);
@@ -69,9 +69,9 @@ public class Cliente {
     public void enviarDatos(String datos) {
         try {
             outputStream = socketCliente.getOutputStream();
-            salidaDatos = new DataOutputStream(outputStream);
-            salidaDatos.writeUTF(datos);
-            salidaDatos.flush();
+            salidaDatos = new PrintWriter(outputStream,true);
+            salidaDatos.println(datos);
+            //salidaDatos.flush();
         } catch (SocketException c){
             try {
                 socketCliente = new Socket(nIp, nPuerto);

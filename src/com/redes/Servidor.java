@@ -17,8 +17,8 @@ public class Servidor {
     private OutputStream outputStream;
     private InputStream inputStream;
 
-    private DataOutputStream salidaDatos;
-    private DataInputStream entradaDatos;
+    private PrintWriter salidaDatos;
+    private BufferedReader entradaDatos;
 
     public Servidor(int numeroPuerto){
         boolean continuar = false;
@@ -66,9 +66,9 @@ public class Servidor {
     public void enviarDatos(String datos) {
         try {
             outputStream = miServicio.getOutputStream();
-            salidaDatos = new DataOutputStream(outputStream);
-            salidaDatos.writeUTF(datos);
-            salidaDatos.flush();
+            salidaDatos = new PrintWriter(outputStream,true);
+            salidaDatos.println(datos);
+            //salidaDatos.flush();
         }catch (NullPointerException ex){
             //ex.printStackTrace();
         }catch (SocketException c){
@@ -84,8 +84,8 @@ public class Servidor {
         String mensaje = "";
         try {
             inputStream = miServicio.getInputStream();
-            entradaDatos = new DataInputStream(inputStream);
-            mensaje = entradaDatos.readUTF();
+            entradaDatos = new BufferedReader(new InputStreamReader(inputStream));
+            mensaje = entradaDatos.readLine();
             //System.out.println(mensaje);
         } catch (SocketTimeoutException ex){
             //System.out.println(ex);

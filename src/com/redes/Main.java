@@ -44,7 +44,7 @@ public class Main extends Thread{
                     hiloInterno = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            as1 = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
+                            as1 = new AS("C:\\Users\\dgonz\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
                             TimerTask timerTask = new TimerTask() {
                                 String mensaje = "";
                                 int primer = 0;
@@ -62,9 +62,11 @@ public class Main extends Thread{
                                         as1.actualizarRutas(mensaje);
                                     }
                                     else{
-                                        as1.borrarRuta(vecino1);
-                                        vecino1 = "";
-                                        primer = 0;
+                                        if (!vecino1.equals("")) {
+                                            as1.borrarRuta(vecino1);
+                                            vecino1 = "";
+                                            primer = 0;
+                                        }
                                     }
                                 }
                             };

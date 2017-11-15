@@ -1,9 +1,15 @@
 package com.redes;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AS {
 
@@ -11,6 +17,7 @@ public class AS {
     public ArrayList<String> rutas;
     public Cliente client1;
     public Servidor serv1;
+    Map<String,Integer> cantidadVec;
 
     public AS() {
         this.id = "";
@@ -19,6 +26,7 @@ public class AS {
     public AS(String nombreArchivo){
         this.id = "";
         this.rutas = new ArrayList<String>();
+        this.cantidadVec = new HashMap<String,Integer>();
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
@@ -95,25 +103,72 @@ public class AS {
                 actualizacion = actualizacion + parte1 + id + "-" + parte2 + ",";
             }
         }
-        return actualizacion;
+        return actualizacion.substring(0,actualizacion.length()-1);
     }
 
     public void actualizarRutas(String mensaje){
+        //System.out.println(mensaje);
+        if(!mensaje.endsWith(",")){
+            mensaje += ',';
+        }
         String ruta = "";
         String enlace = "";
         String idRed = "";
         String rutaAS = "";
+        String idAS = "";
+        ArrayList<String> redesRecibidas = new ArrayList<String>();
+
+        //Mapa de AS con sus vecinos
+
+        Pattern p = Pattern.compile( "AS\\d" );
+        // Obtener el ID del AS del mensaje que se recibió
+        Matcher m = p.matcher( mensaje );
+        if ( m.find() ) {
+            idAS = m.group(0);
+            if (!cantidadVec.containsKey(idAS))
+                cantidadVec.put(idAS,0);
+        }
+        // Contar los vecinos del AS según el mensaje
         ruta = mensaje.substring(mensaje.indexOf('*')+1);
-        while(ruta.length() > 0){
-            enlace = ruta.substring(0,ruta.indexOf(','));
-            if(!enlace.contains(id)){
-                idRed = enlace.substring(0,ruta.indexOf(':')+1);
-                if(ruta.indexOf(':') != ruta.length()-1){
-                    if(!rutas.contains(idRed) && !rutas.contains(enlace))
+        int cantidadM = 0;
+        m = p.matcher(ruta);
+        while (m.find()) {
+            cantidadM++;
+        }
+
+
+        while(ruta.length() > 0) {
+            enlace = ruta.substring(0, ruta.indexOf(','));
+            idRed = enlace.substring(0, ruta.indexOf(':') + 1);
+            redesRecibidas.add(enlace.substring(0, ruta.indexOf(':')));
+            if (!enlace.contains(id)) {
+                //idRed = enlace.substring(0, ruta.indexOf(':') + 1);
+                if (ruta.indexOf(':') != ruta.length() - 1) {
+
+                    if (!rutas.contains(idRed) && !rutas.contains(enlace)) {
                         rutas.add(enlace);
+                    }
                 }
             }
-            ruta = ruta.substring(ruta.indexOf(',')+1);
+            ruta = ruta.substring(ruta.indexOf(',') + 1);
+        }
+        if (cantidadM >= cantidadVec.get(idAS)) {
+            cantidadVec.put(idAS,cantidadM);
+        } else {
+            cantidadVec.put(idAS,cantidadM);
+            for(int i = 0 ; i < rutas.size(); i++){
+                //for(int j = 0 ; j < redesRecibidas.size(); j++){
+                String idred = rutas.get(i).substring(0,rutas.get(i).indexOf(':'));
+                //System.out.println(idred);
+                //System.out.println(redesRecibidas.get(0));
+                    if(!redesRecibidas.contains(idred)){
+                        if(rutas.get(i).contains(idAS)){
+                            rutas.remove(i);
+                            i--;
+                        }
+                    }
+                //}
+            }
         }
     }
 

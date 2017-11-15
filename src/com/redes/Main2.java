@@ -3,8 +3,11 @@ package com.redes;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main2 extends Thread{
 
@@ -52,7 +55,7 @@ public class Main2 extends Thread{
                                 hiloInterno = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        as2 = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as2.txt");
+                                        as2 = new AS("C:\\Users\\dgonz\\IdeaProjects\\TareaAS\\src\\com\\redes\\as2.txt");
                                         /*String mensajeC = "";
                                         String mensajeS = "";
                                         int primer = 0;
@@ -83,9 +86,11 @@ public class Main2 extends Thread{
                                                     as2.actualizarRutas(mensajeC);
                                                 }
                                                 else{
-                                                    as2.borrarRuta(vecino1);
-                                                    vecino1 = "";
-                                                    primer = 0;
+                                                    if (!vecino1.equals("")) {
+                                                        as2.borrarRuta(vecino1);
+                                                        vecino1 = "";
+                                                        primer = 0;
+                                                    }
                                                 }
 
                                                 if(primer2 == 0 && mensajeS != null && mensajeS != ""){
@@ -99,9 +104,11 @@ public class Main2 extends Thread{
                                                     as2.actualizarRutas(mensajeS);
                                                 }
                                                 else{
-                                                    as2.borrarRuta(vecino2);
-                                                    vecino2 = "";
-                                                    primer2 = 0;
+                                                    if (!vecino2.equals("")) {
+                                                        as2.borrarRuta(vecino2);
+                                                        vecino2 = "";
+                                                        primer2 = 0;
+                                                    }
                                                 }
                                             }
 
@@ -217,6 +224,9 @@ public class Main2 extends Thread{
                                         "red <dir red> : AS<num> - AS<num> - AS<num>\n" +
                                         "\thelp:\t\tMuestra esta ayuda.\n" +
                                         "\texit:\t\tTermina la ejecución de la aplicación.\n");
+
+                                String hp = "Esto es AS1, luego esta AS2 y AS3";
+
                                 break;
                             default:
                                 if (!input.equals("exit")) {
