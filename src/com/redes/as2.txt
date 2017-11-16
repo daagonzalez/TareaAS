@@ -1,8 +1,8 @@
 #ID
-AS3
+AS2
 #Redes conocidas
-192.168.3.0
+589
 #Vecinos BGP
-10.1.130.104:2222
+127.0.0.15:3333
 #Escuchar vecinos
 5555

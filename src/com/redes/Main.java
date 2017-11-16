@@ -44,7 +44,7 @@ public class Main extends Thread{
                     hiloInterno = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            as1 = new AS("C:\\Users\\dgonz\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
+                            as1 = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as1.txt");
                             TimerTask timerTask = new TimerTask() {
                                 String mensaje = "";
                                 int primer = 0;

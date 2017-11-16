@@ -55,7 +55,7 @@ public class Main2 extends Thread{
                                 hiloInterno = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        as2 = new AS("C:\\Users\\dgonz\\IdeaProjects\\TareaAS\\src\\com\\redes\\as2.txt");
+                                        as2 = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as2.txt");
                                         /*String mensajeC = "";
                                         String mensajeS = "";
                                         int primer = 0;

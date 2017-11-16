@@ -52,7 +52,7 @@ public class Main3 extends Thread{
                                 hiloInterno = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        as3 = new AS("C:\\Users\\dgonz\\IdeaProjects\\TareaAS\\src\\com\\redes\\as3.txt");
+                                        as3 = new AS("C:\\Users\\Ballestero-Cabezas\\IdeaProjects\\TareaAS\\src\\com\\redes\\as3.txt");
                                         /*String mensaje = "";
                                         int primer = 0;*/
                                         //while(!terminar3){
